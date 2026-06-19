@@ -173,6 +173,53 @@ Start frontend:
 npm run dev --prefix client
 ```
 
+## Deployment
+
+### Frontend on Vercel
+
+- Set the Vercel project root directory to `client`
+- Add this environment variable in Vercel:
+
+```env
+VITE_API_URL=https://your-render-backend.onrender.com/api
+```
+
+- The frontend includes `client/vercel.json` so direct routes such as:
+  - `/admin`
+  - `/admin/login`
+  - `/team/:id`
+  - `/services/:id`
+  work correctly after deployment
+
+### Backend on Render
+
+- Deploy the `server` folder as a Node service
+- Set the start command to:
+
+```bash
+npm start
+```
+
+- Or use the working directory `server` and start with:
+
+```bash
+npm run dev
+```
+
+- Add these environment variables on Render:
+
+```env
+PORT=5001
+MONGO_URI=your_mongodb_connection
+JWT_SECRET=your_secret
+ADMIN_EMAIL=admin@elalmani.com
+ADMIN_PASSWORD=admin123
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+CLIENT_URL=https://your-vercel-app.vercel.app
+```
+
 ## Default Admin
 
 ```txt
