@@ -68,7 +68,10 @@ export default function Layout() {
   });
 
   useEffect(() => {
-    api.get('/settings').then((response) => setSettings((prev) => ({ ...prev, ...response.data }))).catch(() => {});
+    api
+      .get('/settings')
+      .then((response) => setSettings((prev) => ({ ...prev, ...response.data })))
+      .catch(() => {});
   }, []);
 
   const footerAddresses = settings.addresses?.length
@@ -87,29 +90,27 @@ export default function Layout() {
   return (
     <>
       <nav className="fixed top-0 z-50 w-full border-b border-gold/20 bg-black/80 backdrop-blur">
-        <div className="container-x flex h-20 items-center justify-between px-4">
-          <div className="flex items-center">
-            <button className="md:hidden" onClick={() => setOpen((value) => !value)}>
-              <Menu />
-            </button>
+        <div dir="ltr" className="container-x flex h-20 items-center justify-between px-4">
+          <button className="md:hidden" onClick={() => setOpen((value) => !value)} aria-label="فتح القائمة">
+            <Menu />
+          </button>
 
-            <div className="hidden gap-7 md:flex">
-              {links.map((link) => (
-                <NavLink
-                  key={link.to}
-                  to={link.to}
-                  className={({ isActive }) =>
-                    `brand-serif text-base tracking-[0.08em] ${isActive ? 'text-gold' : 'text-gray-300 hover:text-white'}`
-                  }
-                >
-                  {link.label}
-                </NavLink>
-              ))}
-            </div>
+          <div className="hidden items-center gap-7 md:flex">
+            {links.map((link) => (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                className={({ isActive }) =>
+                  `brand-serif text-base tracking-[0.08em] ${isActive ? 'text-gold' : 'text-gray-300 hover:text-white'}`
+                }
+              >
+                {link.label}
+              </NavLink>
+            ))}
           </div>
 
           <Link to="/" className="flex flex-row-reverse items-center gap-3">
-            <img src="/logo.png" className="h-12 w-12 rounded-full object-cover" />
+            <img src="/logo.png" alt="EL ALMANI" className="h-12 w-12 rounded-full object-cover" />
             <div className="text-right">
               <b className="brand-serif gold-text text-2xl tracking-[0.14em]">EL ALMANI</b>
               <p className="brand-serif text-xs tracking-[0.18em] text-gray-400">صالون حلاقة رجالي</p>

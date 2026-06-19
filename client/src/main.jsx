@@ -12,6 +12,7 @@ import Gallery from './pages/Gallery';
 import Contact from './pages/Contact';
 import Team from './pages/Team';
 import TeamMemberDetails from './pages/TeamMemberDetails';
+import TeamWorkDetails from './pages/TeamWorkDetails';
 import AdminLogin from './admin/AdminLogin';
 import Dashboard from './admin/Dashboard';
 
@@ -41,6 +42,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/team" element={<Team />} />
           <Route path="/team/:id" element={<TeamMemberDetails />} />
+          <Route path="/team/:id/works/:workId" element={<TeamWorkDetails />} />
           <Route path="/contact" element={<Contact />} />
         </Route>
 
