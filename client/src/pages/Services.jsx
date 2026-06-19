@@ -39,7 +39,7 @@ export default function Services() {
       <div className="container-x px-4">
         <SectionTitle
           eyebrow="الخدمات"
-          title="خدمات EL ALMANI SALON"
+          title="خدمات EL ALMANY SALON"
           desc="اسحب يمينًا ويسارًا لاكتشاف الخدمات، ثم افتح كل خدمة لمشاهدة أعمال الفريق الخاصة بها."
         />
 

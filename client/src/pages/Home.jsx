@@ -91,7 +91,7 @@ export default function Home() {
               <div className="space-y-4 text-right md:order-1">
                 <div className="px-2 py-2 md:hidden">
                   <div className="relative text-center">
-                    <p className="brand-serif gold-text text-[1.55rem] tracking-[0.08em] sm:text-[1.9rem]">EL ALMANI SALON</p>
+                    <p className="brand-serif gold-text text-[1.55rem] tracking-[0.08em] sm:text-[1.9rem]">EL ALMANY SALON</p>
                     <p className="mt-1 text-[10px] tracking-[0.35em] text-gold/80 sm:text-xs sm:tracking-[0.45em]">BARBERSHOP</p>
                   </div>
                 </div>
@@ -102,13 +102,13 @@ export default function Home() {
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="text-right">
-                      <p className="brand-serif gold-text text-4xl tracking-[0.12em]">EL ALMANI SALON</p>
+                      <p className="brand-serif gold-text text-4xl tracking-[0.12em]">EL ALMANY SALON</p>
                       <p className="mt-1 text-sm tracking-[0.38em] text-gold/80">BARBERSHOP</p>
                     </div>
                     <div className="flex h-20 w-20 items-center justify-center rounded-full border border-gold/40 bg-black/60 p-2 shadow-[0_0_38px_rgba(214,168,58,0.18)]">
                       <OptimizedImage
                         src="/logo.png"
-                        alt="EL ALMANI SALON"
+                        alt="EL ALMANY SALON"
                         eager
                         highPriority
                         className="h-full w-full rounded-full"
@@ -210,7 +210,7 @@ export default function Home() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent" />
                   <OptimizedImage
                     src="/logo.png"
-                    alt="EL ALMANI SALON"
+                    alt="EL ALMANY SALON"
                     eager
                     highPriority
                     className="h-[380px] w-full sm:h-[460px] md:h-[640px]"

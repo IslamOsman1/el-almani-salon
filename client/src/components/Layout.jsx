@@ -110,9 +110,9 @@ export default function Layout() {
           </div>
 
           <Link to="/" className="flex flex-row-reverse items-center gap-3">
-            <img src="/logo.png" alt="EL ALMANI" className="h-12 w-12 rounded-full object-cover" />
+            <img src="/logo.png" alt="EL ALMANY" className="h-12 w-12 rounded-full object-cover" />
             <div className="text-right">
-              <b className="brand-serif gold-text text-2xl tracking-[0.14em]">EL ALMANI</b>
+              <b className="brand-serif gold-text text-2xl tracking-[0.14em]">EL ALMANY</b>
               <p className="brand-serif text-xs tracking-[0.18em] text-gray-400">صالون حلاقة رجالي</p>
             </div>
           </Link>
@@ -142,7 +142,7 @@ export default function Layout() {
         <div className="container-x grid gap-8 px-4 md:grid-cols-[1.2fr_.95fr_.95fr] md:items-start">
           <div className="text-right">
             <Scissors className="mb-3 mr-auto text-gold md:mr-0" />
-            <h3 className="gold-text text-2xl font-bold tracking-widest">EL ALMANI SALON</h3>
+            <h3 className="gold-text text-2xl font-bold tracking-widest">EL ALMANY SALON</h3>
             <p className="mt-3 leading-7 text-gray-400">
               خدمات حلاقة وعناية رجالية، معرض أعمال حقيقي، وفريق محترف يقدم تجربة مرتبة وعصرية.
             </p>

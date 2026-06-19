@@ -231,7 +231,7 @@ export default function Dashboard({ initialTab = 'gallery' }) {
     <div className="min-h-screen bg-black text-white">
       <header className="sticky top-0 z-40 border-b border-gold/20 bg-black/90 p-4 backdrop-blur">
         <div className="container-x flex flex-wrap items-center justify-between gap-3">
-          <b className="gold-text text-2xl">EL ALMANI Dashboard</b>
+          <b className="gold-text text-2xl">EL ALMANY Dashboard</b>
           <button onClick={logout} className="btn border border-gold/40 text-gold">
             <LogOut className="mr-2" />
             Logout
