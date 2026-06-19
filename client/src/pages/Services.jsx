@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import api from '../api/axios';
 import SectionTitle from '../components/SectionTitle';
+import OptimizedImage from '../components/OptimizedImage';
 
 const fallback = [
   'قصات شعر عصرية',
@@ -55,11 +56,12 @@ export default function Services() {
                 <Link to={`/services/${service._id}`} className="block">
                   <div className="relative overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent" />
-                    <img
+                    <OptimizedImage
                       src={service.coverImage || '/logo.png'}
                       alt={service.title}
-                      className="h-80 w-full object-cover transition duration-500 group-hover:scale-105"
-                      loading="lazy"
+                      className="h-80 w-full"
+                      imgClassName="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                      sizes="(max-width: 640px) 100vw, 340px"
                     />
                   </div>
 

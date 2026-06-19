@@ -3,6 +3,8 @@ import { ArrowLeft, Play } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
 import api from '../api/axios';
+import OptimizedImage from '../components/OptimizedImage';
+import LazyVideo from '../components/LazyVideo';
 
 export default function ServiceDetails() {
   const { id } = useParams();
@@ -55,7 +57,15 @@ export default function ServiceDetails() {
 
         <div className="grid gap-8 lg:grid-cols-[420px_1fr]">
           <div className="overflow-hidden rounded-[2rem] border border-gold/20 bg-black/40">
-            <img src={service.coverImage || '/logo.png'} alt={service.title} className="h-[420px] w-full object-cover" />
+            <OptimizedImage
+              src={service.coverImage || '/logo.png'}
+              alt={service.title}
+              eager
+              highPriority
+              className="h-[420px] w-full"
+              imgClassName="h-full w-full object-cover"
+              sizes="(max-width: 1024px) 100vw, 420px"
+            />
           </div>
 
           <div className="rounded-[2rem] border border-gold/20 bg-[radial-gradient(circle_at_top,rgba(214,168,58,0.14),rgba(0,0,0,0.78)_45%)] p-8">
@@ -88,9 +98,15 @@ export default function ServiceDetails() {
                   >
                     <div className="relative">
                       {cover?.type === 'video' ? (
-                        <video src={cover.url} className="h-72 w-full bg-black object-cover" muted preload="metadata" />
+                        <LazyVideo src={cover.url} className="h-72 w-full" muted preload="metadata" />
                       ) : (
-                        <img src={cover?.url || '/logo.png'} alt={work.title} className="h-72 w-full object-cover" loading="lazy" />
+                        <OptimizedImage
+                          src={cover?.url || '/logo.png'}
+                          alt={work.title}
+                          className="h-72 w-full"
+                          imgClassName="h-full w-full object-cover"
+                          sizes="(max-width: 640px) 100vw, 33vw"
+                        />
                       )}
                       {hasVideo ? (
                         <span className="absolute right-4 top-4 inline-flex items-center gap-2 rounded-full bg-black/70 px-3 py-2 text-xs text-white">
@@ -102,7 +118,12 @@ export default function ServiceDetails() {
 
                     <div className="space-y-4 p-5">
                       <div className="flex items-center gap-3">
-                        <img src={work.member?.avatar || '/logo.png'} alt={work.member?.name} className="h-10 w-10 rounded-full object-cover" />
+                        <OptimizedImage
+                          src={work.member?.avatar || '/logo.png'}
+                          alt={work.member?.name}
+                          className="h-10 w-10 rounded-full"
+                          imgClassName="h-full w-full rounded-full object-cover"
+                        />
                         <div>
                           <p className="font-semibold">{work.member?.name}</p>
                           <Link to={`/team/${work.member?._id}`} className="text-xs text-gold">

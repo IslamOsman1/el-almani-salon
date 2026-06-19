@@ -4,20 +4,32 @@ import { Link } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
 import api from '../api/axios';
 import SectionTitle from '../components/SectionTitle';
+import OptimizedImage from '../components/OptimizedImage';
+import LazyVideo from '../components/LazyVideo';
 
 function GalleryModal({ item, onClose }) {
   if (!item) return null;
 
   return (
     <div className="fixed inset-0 z-[60] bg-black/80 p-4 backdrop-blur" onClick={onClose}>
-      <div className="container-x max-h-[90vh] overflow-y-auto rounded-[2rem] border border-gold/20 bg-[#090909] p-6" onClick={(event) => event.stopPropagation()}>
+      <div
+        className="container-x max-h-[90vh] overflow-y-auto rounded-[2rem] border border-gold/20 bg-[#090909] p-6"
+        onClick={(event) => event.stopPropagation()}
+      >
         <div className="mb-6 flex items-start justify-between gap-4">
           <div>
-            <p className="text-sm font-bold tracking-[0.35em] text-gold">{item.serviceType || 'عمل من المعرض'}</p>
+            <p className="text-sm font-bold tracking-[0.35em] text-gold">
+              {item.serviceType || 'عمل من المعرض'}
+            </p>
             <h2 className="mt-2 text-3xl font-black">{item.title}</h2>
             <p className="mt-3 max-w-3xl text-gray-400">{item.description}</p>
             <div className="mt-4 flex items-center gap-3">
-              <img src={item.member.avatar || '/logo.png'} alt={item.member.name} className="h-12 w-12 rounded-full object-cover" />
+              <OptimizedImage
+                src={item.member.avatar || '/logo.png'}
+                alt={item.member.name}
+                className="h-12 w-12 rounded-full"
+                imgClassName="h-full w-full rounded-full object-cover"
+              />
               <div>
                 <p className="font-semibold">{item.member.name}</p>
                 <Link to={`/team/${item.member._id}`} className="text-sm text-gold" onClick={onClose}>
@@ -36,9 +48,15 @@ function GalleryModal({ item, onClose }) {
           {item.media.map((mediaItem) => (
             <div key={mediaItem._id} className="overflow-hidden rounded-[1.5rem] border border-gold/20 bg-black/50">
               {mediaItem.type === 'video' ? (
-                <video src={mediaItem.url} className="h-72 w-full bg-black object-cover" controls playsInline preload="metadata" />
+                <LazyVideo src={mediaItem.url} className="h-72 w-full" controls muted={false} preload="metadata" />
               ) : (
-                <img src={mediaItem.url} alt={mediaItem.title || item.title} className="h-72 w-full object-cover" loading="lazy" />
+                <OptimizedImage
+                  src={mediaItem.url}
+                  alt={mediaItem.title || item.title}
+                  className="h-72 w-full"
+                  imgClassName="h-full w-full object-cover"
+                  sizes="(max-width: 640px) 100vw, 33vw"
+                />
               )}
 
               <div className="p-4 text-sm text-gray-400">
@@ -60,6 +78,7 @@ export default function Gallery() {
   const [mediaFilter, setMediaFilter] = useState('الكل');
   const [serviceFilter, setServiceFilter] = useState('الكل');
   const [memberFilter, setMemberFilter] = useState('الكل');
+  const [visibleCount, setVisibleCount] = useState(8);
 
   useEffect(() => {
     api
@@ -69,8 +88,14 @@ export default function Gallery() {
       .finally(() => setLoading(false));
   }, []);
 
-  const serviceTypes = useMemo(() => ['الكل', ...new Set(items.map((item) => item.serviceType).filter(Boolean))], [items]);
-  const members = useMemo(() => ['الكل', ...new Set(items.map((item) => item.member?.name).filter(Boolean))], [items]);
+  const serviceTypes = useMemo(
+    () => ['الكل', ...new Set(items.map((item) => item.serviceType).filter(Boolean))],
+    [items]
+  );
+  const members = useMemo(
+    () => ['الكل', ...new Set(items.map((item) => item.member?.name).filter(Boolean))],
+    [items]
+  );
 
   const filteredItems = useMemo(() => {
     return items.filter((item) => {
@@ -96,6 +121,12 @@ export default function Gallery() {
     });
   }, [items, search, mediaFilter, serviceFilter, memberFilter]);
 
+  useEffect(() => {
+    setVisibleCount(8);
+  }, [search, mediaFilter, serviceFilter, memberFilter]);
+
+  const visibleItems = filteredItems.slice(0, visibleCount);
+
   return (
     <section className="section">
       <div className="container-x px-4">
@@ -108,7 +139,12 @@ export default function Gallery() {
         <div className="mb-8 grid gap-4 rounded-[2rem] border border-gold/20 bg-black/40 p-5 lg:grid-cols-[1.4fr_repeat(3,1fr)]">
           <label className="relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gold" size={18} />
-            <input className="input pl-11" placeholder="ابحث باسم العمل أو العضو أو نوع الخدمة" value={search} onChange={(event) => setSearch(event.target.value)} />
+            <input
+              className="input pl-11"
+              placeholder="ابحث باسم العمل أو العضو أو نوع الخدمة"
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+            />
           </label>
 
           <select className="input" value={mediaFilter} onChange={(event) => setMediaFilter(event.target.value)}>
@@ -131,10 +167,21 @@ export default function Gallery() {
         </div>
 
         {loading ? (
-          <p className="py-16 text-center text-gold">جاري تحميل المعرض...</p>
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            {Array.from({ length: 6 }).map((_, index) => (
+              <div key={index} className="overflow-hidden rounded-[1.75rem] border border-gold/20 bg-black/40">
+                <div className="h-72 animate-pulse bg-white/5" />
+                <div className="space-y-3 p-5">
+                  <div className="h-5 w-2/3 animate-pulse rounded bg-white/5" />
+                  <div className="h-4 w-full animate-pulse rounded bg-white/5" />
+                  <div className="h-4 w-4/5 animate-pulse rounded bg-white/5" />
+                </div>
+              </div>
+            ))}
+          </div>
         ) : (
           <div className="columns-1 gap-5 md:columns-2 xl:columns-3">
-            {filteredItems.map((item, index) => {
+            {visibleItems.map((item, index) => {
               const cover = item.media?.[0];
               const hasVideo = item.media?.some((mediaItem) => mediaItem.type === 'video');
 
@@ -149,9 +196,15 @@ export default function Gallery() {
                   <button type="button" className="block w-full text-left" onClick={() => setSelectedItem(item)}>
                     <div className="relative">
                       {cover?.type === 'video' ? (
-                        <video src={cover.url} className="max-h-[420px] w-full bg-black object-cover" muted preload="metadata" />
+                        <LazyVideo src={cover.url} className="max-h-[420px] w-full" muted preload="metadata" />
                       ) : (
-                        <img src={cover?.url || '/logo.png'} alt={item.title} className="max-h-[420px] w-full object-cover" loading="lazy" />
+                        <OptimizedImage
+                          src={cover?.url || '/logo.png'}
+                          alt={item.title}
+                          className="max-h-[420px] w-full"
+                          imgClassName="h-full w-full object-cover"
+                          sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                        />
                       )}
 
                       {hasVideo ? (
@@ -164,7 +217,12 @@ export default function Gallery() {
 
                     <div className="space-y-4 p-5">
                       <div className="flex items-center gap-3">
-                        <img src={item.member.avatar || '/logo.png'} alt={item.member.name} className="h-11 w-11 rounded-full object-cover" />
+                        <OptimizedImage
+                          src={item.member.avatar || '/logo.png'}
+                          alt={item.member.name}
+                          className="h-11 w-11 rounded-full"
+                          imgClassName="h-full w-full rounded-full object-cover"
+                        />
                         <div>
                           <p className="font-semibold">{item.member.name}</p>
                           <p className="text-xs text-gray-400">{item.member.role}</p>
@@ -172,7 +230,9 @@ export default function Gallery() {
                       </div>
 
                       <div className="flex flex-wrap gap-2">
-                        <span className="rounded-full bg-gold/10 px-3 py-1 text-xs text-gold">{item.serviceType || 'خدمة عامة'}</span>
+                        <span className="rounded-full bg-gold/10 px-3 py-1 text-xs text-gold">
+                          {item.serviceType || 'خدمة عامة'}
+                        </span>
                         <span className="rounded-full border border-gold/20 px-3 py-1 text-xs text-gray-400">
                           {item.media?.length || 0} عناصر
                         </span>
@@ -189,6 +249,14 @@ export default function Gallery() {
             })}
           </div>
         )}
+
+        {!loading && filteredItems.length > visibleCount ? (
+          <div className="mt-8 text-center">
+            <button className="btn btn-gold" onClick={() => setVisibleCount((count) => count + 4)}>
+              تحميل المزيد
+            </button>
+          </div>
+        ) : null}
       </div>
 
       <GalleryModal item={selectedItem} onClose={() => setSelectedItem(null)} />

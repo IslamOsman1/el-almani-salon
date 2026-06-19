@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import api from '../api/axios';
 import SectionTitle from '../components/SectionTitle';
+import OptimizedImage from '../components/OptimizedImage';
 
 const fallbackServices = [
   {
@@ -105,7 +106,14 @@ export default function Home() {
                       <p className="mt-1 text-sm tracking-[0.38em] text-gold/80">BARBERSHOP</p>
                     </div>
                     <div className="flex h-20 w-20 items-center justify-center rounded-full border border-gold/40 bg-black/60 p-2 shadow-[0_0_38px_rgba(214,168,58,0.18)]">
-                      <img src="/logo.png" alt="EL ALMANI SALON" className="h-full w-full rounded-full object-cover" />
+                      <OptimizedImage
+                        src="/logo.png"
+                        alt="EL ALMANI SALON"
+                        eager
+                        highPriority
+                        className="h-full w-full rounded-full"
+                        imgClassName="h-full w-full rounded-full object-cover"
+                      />
                     </div>
                   </div>
                 </div>
@@ -200,10 +208,14 @@ export default function Home() {
                 <div className="absolute inset-x-8 top-8 h-44 rounded-full bg-gold/20 blur-3xl" />
                 <div className="relative overflow-hidden rounded-[1.9rem] border border-gold/20 bg-black/40">
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent" />
-                  <img
+                  <OptimizedImage
                     src="/logo.png"
                     alt="EL ALMANI SALON"
-                    className="h-[380px] w-full object-cover sm:h-[460px] md:h-[640px]"
+                    eager
+                    highPriority
+                    className="h-[380px] w-full sm:h-[460px] md:h-[640px]"
+                    imgClassName="h-full w-full object-cover"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
                   />
                 </div>
 
@@ -244,11 +256,12 @@ export default function Home() {
                   <Link to={`/services/${service._id}`} className="block">
                     <div className="relative overflow-hidden">
                       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/15 to-transparent" />
-                      <img
+                      <OptimizedImage
                         src={service.coverImage || '/logo.png'}
                         alt={service.title}
-                        className="h-64 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-80"
-                        loading="lazy"
+                        className="h-64 w-full sm:h-80"
+                        imgClassName="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                        sizes="(max-width: 640px) 100vw, 340px"
                       />
                     </div>
                     <div className="space-y-3 p-4 text-right sm:space-y-4 sm:p-6">
@@ -288,11 +301,12 @@ export default function Home() {
                   <Link to={`/team/${member._id}`} className="block">
                     <div className="relative overflow-hidden">
                       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/5 to-transparent" />
-                      <img
+                      <OptimizedImage
                         src={member.avatar || '/logo.png'}
                         alt={member.name}
-                        className="h-64 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-80"
-                        loading="lazy"
+                        className="h-64 w-full sm:h-80"
+                        imgClassName="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                        sizes="(max-width: 640px) 100vw, 340px"
                       />
                     </div>
                     <div className="space-y-2 p-4 text-right sm:space-y-3 sm:p-6">

@@ -3,6 +3,8 @@ import { ArrowLeft, Briefcase, FolderOpen, ImageIcon, MessageCircle, PlayCircle 
 import { Link, useParams } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
 import api from '../api/axios';
+import OptimizedImage from '../components/OptimizedImage';
+import LazyVideo from '../components/LazyVideo';
 
 function WorkCard({ memberId, work, index }) {
   const cover = work.media?.[0];
@@ -19,13 +21,14 @@ function WorkCard({ memberId, work, index }) {
       <Link to={`/team/${memberId}/works/${work._id}`} className="block">
         <div className="relative overflow-hidden">
           {cover?.type === 'video' ? (
-            <video src={cover.url} className="h-72 w-full bg-black object-cover transition duration-500 group-hover:scale-105" muted preload="metadata" />
+            <LazyVideo src={cover.url} className="h-72 w-full transition duration-500 group-hover:scale-105" muted preload="metadata" />
           ) : (
-            <img
+            <OptimizedImage
               src={cover?.url || '/logo.png'}
               alt={work.title}
-              className="h-72 w-full object-cover transition duration-500 group-hover:scale-105"
-              loading="lazy"
+              className="h-72 w-full"
+              imgClassName="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+              sizes="(max-width: 640px) 100vw, 33vw"
             />
           )}
 
@@ -129,7 +132,15 @@ export default function TeamMemberDetails() {
             animate={{ opacity: 1, scale: 1 }}
             className="overflow-hidden rounded-[2.25rem] border border-gold/20 bg-black/50 shadow-gold"
           >
-            <img src={member.avatar || '/logo.png'} alt={member.name} className="h-[500px] w-full object-cover" />
+            <OptimizedImage
+              src={member.avatar || '/logo.png'}
+              alt={member.name}
+              eager
+              highPriority
+              className="h-[500px] w-full"
+              imgClassName="h-full w-full object-cover"
+              sizes="(max-width: 1024px) 100vw, 380px"
+            />
           </motion.div>
 
           <motion.div

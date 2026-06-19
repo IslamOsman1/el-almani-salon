@@ -3,6 +3,8 @@ import { ArrowLeft, Briefcase, ImageIcon, PlayCircle } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
 import api from '../api/axios';
+import OptimizedImage from '../components/OptimizedImage';
+import LazyVideo from '../components/LazyVideo';
 
 export default function TeamWorkDetails() {
   const { id, workId } = useParams();
@@ -63,13 +65,16 @@ export default function TeamWorkDetails() {
             className="overflow-hidden rounded-[2.25rem] border border-gold/20 bg-black/45"
           >
             {cover?.type === 'video' ? (
-              <video src={cover.url} className="h-[520px] w-full bg-black object-cover" controls playsInline preload="metadata" />
+              <LazyVideo src={cover.url} className="h-[520px] w-full" controls muted={false} preload="metadata" />
             ) : (
-              <img
+              <OptimizedImage
                 src={cover?.url || '/logo.png'}
                 alt={work.title}
-                className="h-[520px] w-full object-cover"
-                loading="lazy"
+                eager
+                highPriority
+                className="h-[520px] w-full"
+                imgClassName="h-full w-full object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
               />
             )}
           </motion.div>
@@ -102,7 +107,12 @@ export default function TeamWorkDetails() {
                   </Link>
                   <p className="mt-2 text-sm text-gray-400">{member.role}</p>
                 </div>
-                <img src={member.avatar || '/logo.png'} alt={member.name} className="h-20 w-20 rounded-2xl object-cover" />
+                <OptimizedImage
+                  src={member.avatar || '/logo.png'}
+                  alt={member.name}
+                  className="h-20 w-20 rounded-2xl"
+                  imgClassName="h-full w-full rounded-2xl object-cover"
+                />
               </div>
             </div>
 
@@ -135,9 +145,15 @@ export default function TeamWorkDetails() {
                 className="overflow-hidden rounded-[1.75rem] border border-gold/20 bg-black/35"
               >
                 {mediaItem.type === 'video' ? (
-                  <video src={mediaItem.url} className="h-80 w-full bg-black object-cover" controls playsInline preload="metadata" />
+                  <LazyVideo src={mediaItem.url} className="h-80 w-full" controls muted={false} preload="metadata" />
                 ) : (
-                  <img src={mediaItem.url} alt={mediaItem.title || work.title} className="h-80 w-full object-cover" loading="lazy" />
+                  <OptimizedImage
+                    src={mediaItem.url}
+                    alt={mediaItem.title || work.title}
+                    className="h-80 w-full"
+                    imgClassName="h-full w-full object-cover"
+                    sizes="(max-width: 640px) 100vw, 33vw"
+                  />
                 )}
 
                 <div className="space-y-3 p-5 text-right">

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import api from '../api/axios';
 import SectionTitle from '../components/SectionTitle';
+import OptimizedImage from '../components/OptimizedImage';
 
 export default function Team() {
   const [team, setTeam] = useState([]);
@@ -61,7 +62,13 @@ export default function Team() {
               >
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/15 to-transparent" />
-                  <img src={member.avatar || '/logo.png'} alt={member.name} className="h-80 w-full object-cover transition duration-500 group-hover:scale-105" />
+                  <OptimizedImage
+                    src={member.avatar || '/logo.png'}
+                    alt={member.name}
+                    className="h-80 w-full"
+                    imgClassName="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                  />
                 </div>
 
                 <div className="space-y-4 p-6">

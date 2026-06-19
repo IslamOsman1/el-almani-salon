@@ -8,11 +8,16 @@ function toType(value) {
 }
 
 function uploadBuffer(file, folder) {
+  const isImage = file.mimetype.startsWith('image/');
+
   return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
       {
         folder,
         resource_type: 'auto',
+        ...(isImage
+          ? { transformation: [{ fetch_format: 'auto', quality: 'auto:good' }] }
+          : {}),
       },
       (error, result) => {
         if (error) {

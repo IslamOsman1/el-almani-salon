@@ -4,7 +4,11 @@ import cloudinary from '../config/cloudinary.js';
 const uploadToCloudinary = (buffer) =>
   new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
-      { folder: 'el-almani-salon/services', resource_type: 'image' },
+      {
+        folder: 'el-almani-salon/services',
+        resource_type: 'image',
+        transformation: [{ fetch_format: 'auto', quality: 'auto:good' }],
+      },
       (error, result) => (error ? reject(error) : resolve(result))
     );
     stream.end(buffer);
