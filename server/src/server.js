@@ -8,9 +8,11 @@ import galleryRoutes from './routes/galleryRoutes.js';
 import serviceRoutes from './routes/serviceRoutes.js';
 import settingsRoutes from './routes/settingsRoutes.js';
 import teamRoutes from './routes/teamRoutes.js';
+import { bootstrapAdmin } from './utils/bootstrapAdmin.js';
 
 dotenv.config();
-connectDB();
+await connectDB();
+await bootstrapAdmin();
 
 const app = express();
 const allowedOrigins = (process.env.CLIENT_URL || '')
