@@ -20,8 +20,8 @@ const emptyGalleryForm = {
 const emptyServiceForm = {
   title: '',
   description: '',
-  icon: '*',
   coverImage: null,
+  coverImageUrl: '',
 };
 
 const emptyAddress = { label: '', url: '' };
@@ -63,6 +63,14 @@ export default function Dashboard({ initialTab = 'gallery' }) {
   useEffect(() => {
     loadDashboardData();
   }, []);
+
+  useEffect(() => {
+    return () => {
+      if (serviceForm.coverImageUrl?.startsWith('blob:')) {
+        URL.revokeObjectURL(serviceForm.coverImageUrl);
+      }
+    };
+  }, [serviceForm.coverImageUrl]);
 
   function logout() {
     localStorage.removeItem('adminToken');
@@ -132,7 +140,6 @@ export default function Dashboard({ initialTab = 'gallery' }) {
       const formData = new FormData();
       formData.append('title', serviceForm.title);
       formData.append('description', serviceForm.description || '');
-      formData.append('icon', serviceForm.icon || '*');
       if (serviceForm.coverImage) {
         formData.append('coverImage', serviceForm.coverImage);
       }
@@ -166,6 +173,20 @@ export default function Dashboard({ initialTab = 'gallery' }) {
     } catch (error) {
       toast.error('Failed to delete service');
     }
+  }
+
+  function handleServiceImageChange(file) {
+    setServiceForm((current) => {
+      if (current.coverImageUrl?.startsWith('blob:')) {
+        URL.revokeObjectURL(current.coverImageUrl);
+      }
+
+      return {
+        ...current,
+        coverImage: file,
+        coverImageUrl: file ? URL.createObjectURL(file) : current.coverImageUrl || '',
+      };
+    });
   }
 
   async function saveSettings(event) {
@@ -291,11 +312,6 @@ export default function Dashboard({ initialTab = 'gallery' }) {
             <form onSubmit={saveService} className="admin-card space-y-4">
               <h2 className="text-xl font-bold">Service</h2>
               <Field
-                placeholder="Icon"
-                value={serviceForm.icon}
-                onChange={(e) => setServiceForm({ ...serviceForm, icon: e.target.value })}
-              />
-              <Field
                 placeholder="Title"
                 value={serviceForm.title}
                 onChange={(e) => setServiceForm({ ...serviceForm, title: e.target.value })}
@@ -311,10 +327,15 @@ export default function Dashboard({ initialTab = 'gallery' }) {
                 className="input"
                 type="file"
                 accept="image/*"
-                onChange={(e) =>
-                  setServiceForm({ ...serviceForm, coverImage: e.target.files?.[0] || null })
-                }
+                onChange={(e) => handleServiceImageChange(e.target.files?.[0] || null)}
               />
+              <div className="overflow-hidden rounded-2xl border border-gold/20 bg-black/30">
+                <img
+                  src={serviceForm.coverImageUrl || '/logo.png'}
+                  alt={serviceForm.title || 'Service preview'}
+                  className="h-44 w-full object-cover"
+                />
+              </div>
               <button className="btn btn-gold w-full" disabled={loadingService}>
                 {loadingService ? 'Saving...' : 'Save Service'}
               </button>
@@ -323,14 +344,25 @@ export default function Dashboard({ initialTab = 'gallery' }) {
             <div className="grid gap-4 md:grid-cols-2">
               {services.map((service) => (
                 <article className="admin-card" key={service._id}>
-                  <div className="text-3xl text-gold">{service.icon || '*'}</div>
+                  <img
+                    src={service.coverImage || '/logo.png'}
+                    alt={service.title}
+                    className="h-52 w-full rounded-2xl object-cover"
+                    loading="lazy"
+                  />
                   <h3 className="mt-3 text-xl font-bold">{service.title}</h3>
                   <p className="mt-2 text-gray-400">{service.description}</p>
                   <div className="mt-3 flex gap-2">
                     <button
                       type="button"
                       className="btn border border-gold/30 text-gold"
-                      onClick={() => setServiceForm({ ...service, coverImage: null })}
+                      onClick={() =>
+                        setServiceForm({
+                          ...service,
+                          coverImage: null,
+                          coverImageUrl: service.coverImage || '',
+                        })
+                      }
                     >
                       <Edit size={16} />
                     </button>

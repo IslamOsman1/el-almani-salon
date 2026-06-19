@@ -1,9 +1,13 @@
 import mongoose from 'mongoose';
-const serviceSchema=new mongoose.Schema({
-  title:{type:String,required:true},
-  description:String,
-  icon:{type:String,default:'✦'},
-  coverImage:{type:String,default:'/logo.png'},
-  coverPublicId:{type:String,default:''}
-},{timestamps:true});
-export default mongoose.model('Service',serviceSchema);
+
+const serviceSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: true },
+    description: String,
+    coverImage: { type: String, default: '/logo.png' },
+    coverPublicId: { type: String, default: '' },
+  },
+  { timestamps: true }
+);
+
+export default mongoose.model('Service', serviceSchema);

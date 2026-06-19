@@ -30,7 +30,7 @@ const services = [
 for (const title of services) {
   await Service.findOneAndUpdate(
     { title },
-    { title, description: 'Professional service with premium finishing.', icon: '*', coverImage: '/logo.png', coverPublicId: '' },
+    { title, description: 'Professional service with premium finishing.', coverImage: '/logo.png', coverPublicId: '' },
     { upsert: true }
   );
 }
