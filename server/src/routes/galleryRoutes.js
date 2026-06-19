@@ -1,0 +1,2 @@
+import express from 'express';import protect from '../middleware/auth.js';import upload from '../middleware/upload.js';import{getGallery,createGallery,updateGallery,deleteGallery}from'../controllers/galleryController.js';
+const router=express.Router();router.get('/',getGallery);router.post('/',protect,upload.single('image'),createGallery);router.put('/:id',protect,upload.single('image'),updateGallery);router.delete('/:id',protect,deleteGallery);export default router;

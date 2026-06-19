@@ -1,0 +1,2 @@
+import bcrypt from 'bcryptjs';import jwt from 'jsonwebtoken';import Admin from '../models/Admin.js';
+export async function login(req,res){const{email,password}=req.body;const admin=await Admin.findOne({email});if(!admin)return res.status(401).json({message:'Wrong email or password'});const ok=await bcrypt.compare(password,admin.password);if(!ok)return res.status(401).json({message:'Wrong email or password'});const token=jwt.sign({id:admin._id,email:admin.email},process.env.JWT_SECRET,{expiresIn:'7d'});res.json({token,admin:{email:admin.email}})}

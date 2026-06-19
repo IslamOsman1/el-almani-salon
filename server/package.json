@@ -1,0 +1,9 @@
+{
+  "name": "el-almani-server",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": { "dev": "nodemon src/server.js", "start": "node src/server.js", "seed": "node src/utils/seed.js" },
+  "dependencies": { "bcryptjs": "latest", "cloudinary": "latest", "cors": "latest", "dotenv": "latest", "express": "latest", "jsonwebtoken": "latest", "mongoose": "latest", "morgan": "latest", "multer": "latest" },
+  "devDependencies": { "nodemon": "latest" }
+}
