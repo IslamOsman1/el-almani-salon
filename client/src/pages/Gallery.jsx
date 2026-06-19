@@ -180,7 +180,7 @@ export default function Gallery() {
             ))}
           </div>
         ) : (
-          <div className="columns-1 gap-5 md:columns-2 xl:columns-3">
+          <div className="grid grid-cols-3 gap-2 md:grid-cols-2 md:gap-5 xl:grid-cols-3">
             {visibleItems.map((item, index) => {
               const cover = item.media?.[0];
               const hasVideo = item.media?.some((mediaItem) => mediaItem.type === 'video');
@@ -191,7 +191,7 @@ export default function Gallery() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.04 }}
-                  className="group mb-5 break-inside-avoid overflow-hidden rounded-[1.75rem] border border-gold/20 bg-black/40"
+                  className="group overflow-hidden rounded-[1rem] border border-gold/20 bg-black/40 sm:rounded-[1.4rem] xl:rounded-[1.75rem]"
                 >
                   <button type="button" className="block w-full text-left" onClick={() => setSelectedItem(item)}>
                     <div className="relative">
@@ -215,32 +215,32 @@ export default function Gallery() {
                       ) : null}
                     </div>
 
-                    <div className="space-y-4 p-5">
-                      <div className="flex items-center gap-3">
+                    <div className="space-y-2 p-2 sm:space-y-3 sm:p-4 xl:space-y-4 xl:p-5">
+                      <div className="flex items-center gap-2 sm:gap-3">
                         <OptimizedImage
                           src={item.member.avatar || '/logo.png'}
                           alt={item.member.name}
-                          className="h-11 w-11 rounded-full"
+                          className="h-8 w-8 rounded-full sm:h-10 sm:w-10 xl:h-11 xl:w-11"
                           imgClassName="h-full w-full rounded-full object-cover"
                         />
                         <div>
-                          <p className="font-semibold">{item.member.name}</p>
-                          <p className="text-xs text-gray-400">{item.member.role}</p>
+                          <p className="line-clamp-1 text-[11px] font-semibold sm:text-sm">{item.member.name}</p>
+                          <p className="hidden text-xs text-gray-400 sm:block">{item.member.role}</p>
                         </div>
                       </div>
 
-                      <div className="flex flex-wrap gap-2">
-                        <span className="rounded-full bg-gold/10 px-3 py-1 text-xs text-gold">
+                      <div className="flex flex-wrap gap-1 sm:gap-2">
+                        <span className="rounded-full bg-gold/10 px-2 py-1 text-[10px] text-gold sm:px-3 sm:text-xs">
                           {item.serviceType || 'خدمة عامة'}
                         </span>
-                        <span className="rounded-full border border-gold/20 px-3 py-1 text-xs text-gray-400">
+                        <span className="rounded-full border border-gold/20 px-2 py-1 text-[10px] text-gray-400 sm:px-3 sm:text-xs">
                           {item.media?.length || 0} عناصر
                         </span>
                       </div>
 
                       <div>
-                        <h3 className="text-xl font-bold">{item.title}</h3>
-                        <p className="mt-2 text-sm leading-6 text-gray-400">{item.description}</p>
+                        <h3 className="line-clamp-2 text-sm font-bold leading-5 sm:text-lg xl:text-xl">{item.title}</h3>
+                        <p className="mt-2 hidden text-sm leading-6 text-gray-400 xl:block">{item.description}</p>
                       </div>
                     </div>
                   </button>

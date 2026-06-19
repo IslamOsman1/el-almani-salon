@@ -16,7 +16,7 @@ function WorkCard({ memberId, work, index }) {
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.06 }}
-      className="group overflow-hidden rounded-[2rem] border border-gold/20 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02))]"
+      className="group overflow-hidden rounded-[1.1rem] border border-gold/20 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02))] sm:rounded-[1.4rem] xl:rounded-[2rem]"
     >
       <Link to={`/team/${memberId}/works/${work._id}`} className="block">
         <div className="relative overflow-hidden">
@@ -49,24 +49,26 @@ function WorkCard({ memberId, work, index }) {
           </div>
         </div>
 
-        <div className="space-y-4 p-5 text-right">
+        <div className="space-y-2 p-2 text-right sm:space-y-3 sm:p-3 xl:space-y-4 xl:p-5">
           <div>
-            <h3 className="text-2xl font-black">{work.title}</h3>
-            <p className="mt-3 line-clamp-3 leading-7 text-gray-400">{work.description || 'عمل مميز ضمن أعمال هذا العضو.'}</p>
+            <h3 className="line-clamp-2 text-sm font-black leading-5 sm:text-base xl:text-2xl">{work.title}</h3>
+            <p className="mt-2 hidden line-clamp-3 text-sm leading-6 text-gray-400 xl:block">
+              {work.description || 'عمل مميز ضمن أعمال هذا العضو.'}
+            </p>
           </div>
 
-          <div className="flex flex-wrap justify-end gap-2 text-xs">
-            <span className="inline-flex items-center gap-2 rounded-full border border-gold/20 px-3 py-2 text-gray-300">
+          <div className="flex flex-wrap justify-end gap-1 text-[10px] sm:gap-2 sm:text-xs">
+            <span className="inline-flex items-center gap-1 rounded-full border border-gold/20 px-2 py-1 text-gray-300 sm:gap-2 sm:px-3 sm:py-2">
               <ImageIcon size={14} className="text-gold" />
               {imageCount} صور
             </span>
-            <span className="inline-flex items-center gap-2 rounded-full border border-gold/20 px-3 py-2 text-gray-300">
+            <span className="inline-flex items-center gap-1 rounded-full border border-gold/20 px-2 py-1 text-gray-300 sm:gap-2 sm:px-3 sm:py-2">
               <PlayCircle size={14} className="text-gold" />
               {videoCount} فيديوهات
             </span>
           </div>
 
-          <div className="inline-flex items-center gap-2 text-sm font-bold text-gold">
+          <div className="inline-flex items-center gap-1 text-[11px] font-bold text-gold sm:gap-2 sm:text-sm">
             فتح صفحة العمل
             <ArrowLeft size={16} />
           </div>
@@ -209,7 +211,7 @@ export default function TeamMemberDetails() {
           </div>
 
           {member.works?.length ? (
-            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            <div className="grid grid-cols-3 gap-2 md:grid-cols-2 md:gap-6 xl:grid-cols-3">
               {member.works.map((work, index) => (
                 <WorkCard key={work._id} memberId={member._id} work={work} index={index} />
               ))}
