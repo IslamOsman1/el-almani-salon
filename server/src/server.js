@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import { connectDB } from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
 import galleryRoutes from './routes/galleryRoutes.js';
+import publicRoutes from './routes/publicRoutes.js';
 import serviceRoutes from './routes/serviceRoutes.js';
 import settingsRoutes from './routes/settingsRoutes.js';
 import teamRoutes from './routes/teamRoutes.js';
@@ -47,6 +48,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 app.get('/', (req, res) => res.json({ message: 'EL ALMANI SALON API' }));
+app.use('/api/public', publicRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/gallery', galleryRoutes);
 app.use('/api/services', serviceRoutes);
