@@ -1,0 +1,47 @@
+{
+  "websiteType": "salon",
+  "enabledModules": [
+    "services",
+    "gallery",
+    "team",
+    "contact",
+    "socialLinks"
+  ],
+  "modules": [
+    {
+      "key": "services",
+      "title": "Services",
+      "icon": "briefcase",
+      "route": "ServicesScreen",
+      "api": "/api/services"
+    },
+    {
+      "key": "gallery",
+      "title": "Gallery",
+      "icon": "image",
+      "route": "GalleryScreen",
+      "api": "/api/team/:id/works"
+    },
+    {
+      "key": "team",
+      "title": "Team",
+      "icon": "users",
+      "route": "TeamScreen",
+      "api": "/api/team"
+    },
+    {
+      "key": "contact",
+      "title": "Contact Settings",
+      "icon": "phone",
+      "route": "ContactScreen",
+      "api": "/api/settings"
+    },
+    {
+      "key": "socialLinks",
+      "title": "Social Links",
+      "icon": "share",
+      "route": "SocialLinksScreen",
+      "api": "/api/settings"
+    }
+  ]
+}
